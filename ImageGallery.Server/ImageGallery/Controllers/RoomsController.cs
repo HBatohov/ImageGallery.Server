@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ImageGallery;
+using ImageGallery.Data;
 using ImageGallery.Models.Entities;
+using ImageGallery.DatabaseRequests.Rooms;
+using MediatR;
 
 namespace ImageGallery.Controllers
 {
@@ -15,17 +17,19 @@ namespace ImageGallery.Controllers
     public class RoomsController : ControllerBase
     {
         private readonly ImageGalleryContext _context;
+        private readonly IMediator _mediator;
 
-        public RoomsController(ImageGalleryContext context)
+        public RoomsController(IMediator mediator, ImageGalleryContext context)
         {
+            _mediator = mediator;
             _context = context;
         }
 
-        // GET: api/Rooms
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Room>>> GetRooms()
+        public async Task<IActionResult> GetAll()
         {
-            return await _context.Rooms.ToListAsync();
+            var result = await _mediator.Send(new GetAllRooms());
+            return Ok(result);
         }
 
         // GET: api/Rooms/5
@@ -88,16 +92,8 @@ namespace ImageGallery.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRoom(Guid id)
         {
-            var room = await _context.Rooms.FindAsync(id);
-            if (room == null)
-            {
-                return NotFound();
-            }
-
-            _context.Rooms.Remove(room);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            var result = await _mediator.Send(new DeleteRoom() { Id = id });
+            return Ok(result);
         }
 
         private bool RoomExists(Guid id)

@@ -8,9 +8,9 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using ImageGallery.Models;
 using ImageGallery.Models.Entities;
 
-namespace ImageGallery
+namespace ImageGallery.Data
 {
-    public class ImageGalleryContext : DbContext
+    public class ImageGalleryContext : DbContext, IImageGalleryContext
     {
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Picture> Pictures { get; set; }

@@ -10,7 +10,5 @@ namespace ImageGallery.Models.DTO
     {
         public string Name { get; set; }
         public string Description { get; set; }
-
-        public List<PictureDTO> Pictures { get; set; } = new List<PictureDTO>();
     }
 }

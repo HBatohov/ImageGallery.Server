@@ -1,4 +1,6 @@
 using AutoMapper;
+using MediatR;
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -14,6 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ImageGallery.Models;
+using ImageGallery.Data;
 
 namespace ImageGallery
 {
@@ -37,9 +40,7 @@ namespace ImageGallery
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ImageGallery", Version = "v1" });
             });
 
-            // HB - perhaps, prepare ConnectionStrings here to get encrypted data from file, as example
-            string connection_string = Configuration["ConnectionStrings:DefaultConnection"];
-            services.AddDbContext<ImageGalleryContext>(options => options.UseNpgsql(connection_string));
+            services.AddDbContext<ImageGalleryContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
             // Auto Mapper Configurations
             var mappingConfig = new MapperConfiguration(mc =>
@@ -49,6 +50,10 @@ namespace ImageGallery
 
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
+
+            services.AddMediatR(Assembly.GetExecutingAssembly());
+
+            services.AddScoped<IImageGalleryContext>(provider => provider.GetService<ImageGalleryContext>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
