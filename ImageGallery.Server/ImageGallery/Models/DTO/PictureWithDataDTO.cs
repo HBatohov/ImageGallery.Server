@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace ImageGallery.Models.DTO
 {
-    public class RoomDTO : AbstractModelDTO
+    public class PictureWithDataDTO : PictureDTO
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public string FileMimeType { get; set; }
+        public byte[] Data { get; set; }
     }
 }

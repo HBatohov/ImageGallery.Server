@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ImageGallery.Data;
 using ImageGallery.Models.Entities;
+using ImageGallery.DatabaseRequests.Pictures;
+using MediatR;
 
 namespace ImageGallery.Controllers
 {
@@ -14,95 +16,49 @@ namespace ImageGallery.Controllers
     [ApiController]
     public class PicturesController : ControllerBase
     {
+        private readonly IMediator _mediator;
         private readonly ImageGalleryContext _context;
 
-        public PicturesController(ImageGalleryContext context)
+        public PicturesController(IMediator mediator, ImageGalleryContext context)
         {
+            _mediator = mediator;
             _context = context;
         }
 
-        // GET: api/Pictures
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Picture>>> GetPictures()
+        public async Task<IActionResult> GetAllPicturesAsync()
         {
-            return await _context.Pictures.ToListAsync();
+            var result = await _mediator.Send(new GetAllPictures());
+            return Ok(result);
         }
 
-        // GET: api/Pictures/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Picture>> GetPicture(Guid id)
+        public async Task<IActionResult> GetPictureAsync(Guid id)
         {
-            var picture = await _context.Pictures.FindAsync(id);
-
-            if (picture == null)
-            {
-                return NotFound();
-            }
-
-            return picture;
+            var result = await _mediator.Send(new GetPicture() { Id = id });
+            return Ok(result);
         }
 
-        // PUT: api/Pictures/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPicture(Guid id, Picture picture)
+        public async Task<IActionResult> UpdatePictureAsync(Guid id, UpdatePicture updatePicture)
         {
-            if (id != picture.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(picture).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PictureExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            updatePicture.Id = id;
+            var result = await _mediator.Send(updatePicture);
+            return Ok(result);
         }
 
-        // POST: api/Pictures
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Picture>> PostPicture(Picture picture)
+        public async Task<IActionResult> AddPictureAsync(AddPicture addPicture)
         {
-            _context.Pictures.Add(picture);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetPicture", new { id = picture.Id }, picture);
+            var result = await _mediator.Send(addPicture);
+            return Ok(result);
         }
 
-        // DELETE: api/Pictures/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePicture(Guid id)
+        public async Task<IActionResult> DeletePictureAsync(Guid id)
         {
-            var picture = await _context.Pictures.FindAsync(id);
-            if (picture == null)
-            {
-                return NotFound();
-            }
-
-            _context.Pictures.Remove(picture);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool PictureExists(Guid id)
-        {
-            return _context.Pictures.Any(e => e.Id == id);
+            var result = await _mediator.Send(new DeletePicture() { Id = id });
+            return Ok(result);
         }
     }
 }

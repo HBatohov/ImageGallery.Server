@@ -43,11 +43,5 @@ namespace ImageGallery.Data
                 .HasForeignKey(p => p.RoomId)
                 .OnDelete(DeleteBehavior.SetNull);  // HB - or .Cascade
         }
-
-        // HB - ???, LL - how to use appsettings.json
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            // optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=PictureGallery;Username=postgres;Password=xxx");
-        }
     }
 }

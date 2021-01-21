@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ImageGallery.Models
 {
-    public class AbstractModelDTO
+    public abstract class AbstractModelDTO
     {
          public Guid Id { get; set; }
     }

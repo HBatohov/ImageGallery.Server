@@ -25,7 +25,7 @@ namespace ImageGallery.DatabaseRequests.Rooms
                 _mapper = mapper;
             }
 
-            public async Task<IEnumerable<RoomDTO>> Handle(GetAllRooms request, CancellationToken cancellationToken)
+            public async Task<IEnumerable<RoomDTO>> Handle(GetAllRooms getAllRooms, CancellationToken cancellationToken)
             {
                 var rooms = await _context.Rooms.AsNoTracking()
                     .OrderBy(p => p.Name)

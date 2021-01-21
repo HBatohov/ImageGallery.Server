@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using ImageGallery.Models.DTO;
 using ImageGallery.Models.Entities;
+using ImageGallery.DatabaseRequests.Rooms;
+using ImageGallery.DatabaseRequests.Pictures;
 
 namespace ImageGallery.Models
 {
@@ -15,8 +17,20 @@ namespace ImageGallery.Models
             CreateMap<Room, RoomDTO>();
             CreateMap<RoomDTO, Room>();
 
+            CreateMap<AddRoom, Room>();
+            CreateMap<UpdateRoom, Room>();
+
             CreateMap<Picture, PictureDTO>();
             CreateMap<PictureDTO, Picture>();
+
+            CreateMap<Picture, PictureDataDTO>();
+            CreateMap<PictureDataDTO, Picture>();
+
+            CreateMap<Picture, PictureWithDataDTO>();
+            CreateMap<PictureWithDataDTO, Picture>();
+
+            CreateMap<AddPicture, Picture>();
+            CreateMap<UpdatePicture, Picture>();
         }
     }
 }

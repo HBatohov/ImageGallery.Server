@@ -13,22 +13,22 @@ namespace ImageGallery.DatabaseRequests.Rooms
     {
         public Guid Id { get; set; }
 
-        public class DeleteRoomCommandHandler : IRequestHandler<DeleteRoom, Unit>
+        public class DeleteRoomHandler : IRequestHandler<DeleteRoom, Unit>
         {
             private readonly IImageGalleryContext _context;
 
-            public DeleteRoomCommandHandler(IImageGalleryContext context)
+            public DeleteRoomHandler(IImageGalleryContext context)
             {
                 _context = context;
             }
 
-            public async Task<Unit> Handle(DeleteRoom command, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(DeleteRoom deleteRoom, CancellationToken cancellationToken)
             {
-                var room = await _context.Rooms.FirstOrDefaultAsync(a => a.Id == command.Id);
+                var room = await _context.Rooms.FirstOrDefaultAsync(a => a.Id == deleteRoom.Id);
 
                 if (room == null)
                     throw new Exception("Room Not Found.");
-                // HB -    throw new RoomNotFoundException(command.Id);
+                // HB -    throw new RoomNotFoundException(deleteRoom.Id);
 
                 _context.Rooms.Remove(room);
                 await _context.SaveChangesAsync(cancellationToken);

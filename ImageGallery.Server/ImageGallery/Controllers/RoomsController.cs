@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ImageGallery.Data;
 using ImageGallery.Models.Entities;
+using ImageGallery.Models.DTO;
 using ImageGallery.DatabaseRequests.Rooms;
+using ImageGallery.DatabaseRequests.Pictures;
 using MediatR;
 
 namespace ImageGallery.Controllers
@@ -16,89 +16,54 @@ namespace ImageGallery.Controllers
     [ApiController]
     public class RoomsController : ControllerBase
     {
-        private readonly ImageGalleryContext _context;
         private readonly IMediator _mediator;
 
-        public RoomsController(IMediator mediator, ImageGalleryContext context)
+        public RoomsController(IMediator mediator)
         {
             _mediator = mediator;
-            _context = context;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAllRoomsAsync()
         {
             var result = await _mediator.Send(new GetAllRooms());
             return Ok(result);
         }
 
-        // GET: api/Rooms/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Room>> GetRoom(Guid id)
+        public async Task<IActionResult> GetRoomAsync(Guid id)
         {
-            var room = await _context.Rooms.FindAsync(id);
-
-            if (room == null)
-            {
-                return NotFound();
-            }
-
-            return room;
-        }
-
-        // PUT: api/Rooms/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutRoom(Guid id, Room room)
-        {
-            if (id != room.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(room).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RoomExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Rooms
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Room>> PostRoom(Room room)
-        {
-            _context.Rooms.Add(room);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetRoom", new { id = room.Id }, room);
-        }
-
-        // DELETE: api/Rooms/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRoom(Guid id)
-        {
-            var result = await _mediator.Send(new DeleteRoom() { Id = id });
+            var result = await _mediator.Send(new GetRoom() { Id = id });
             return Ok(result);
         }
 
-        private bool RoomExists(Guid id)
+        [HttpGet("{id}/Pictures")]
+        public async Task<IActionResult> GetPicturesByRoomAsync(Guid id)
         {
-            return _context.Rooms.Any(e => e.Id == id);
+            var result = await _mediator.Send(new GetPicturesByRoom() { RoomId = id });
+            return Ok(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateRoomAsync(Guid id, UpdateRoom updateRoom)
+        {
+            updateRoom.Id = id;
+            var result = await _mediator.Send(updateRoom);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddRoomAsync(AddRoom addRoom)
+        {
+            var result = await _mediator.Send(addRoom);
+            return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteRoomAsync(Guid id)
+        {
+            var result = await _mediator.Send(new DeleteRoom() { Id = id });
+            return Ok(result);
         }
     }
 }

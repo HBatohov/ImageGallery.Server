@@ -11,41 +11,42 @@ using ImageGallery.Models.DTO;
 using Microsoft.EntityFrameworkCore;
 using ImageGallery.Data;
 
-namespace ImageGallery.DatabaseRequests.Rooms
+namespace ImageGallery.DatabaseRequests.Pictures
 {
-    public class UpdateRoom : IRequest<Guid>
+    public class UpdatePicture : IRequest<Guid>
     {
         [JsonIgnore]
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public Guid? AlbumId { get; set; }
 
-        public class UpdateRoomHandler : IRequestHandler<UpdateRoom, Guid>
+        public class UpdatePictureHandler : IRequestHandler<UpdatePicture, Guid>
         {
             private readonly IImageGalleryContext _context;
             private readonly IMapper _mapper;
 
-            public UpdateRoomHandler(IImageGalleryContext context, IMapper mapper)
+            public UpdatePictureHandler(IImageGalleryContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
             }
 
-            public async Task<Guid> Handle(UpdateRoom updateRoom, CancellationToken cancellationToken)
+            public async Task<Guid> Handle(UpdatePicture updatePicture, CancellationToken cancellationToken)
             {
-                var room = _context.Rooms.FirstOrDefault(a => a.Id == updateRoom.Id);
+                var picture = _context.Pictures.FirstOrDefault(a => a.Id == updatePicture.Id);
 
-                if (room == null)
+                if (picture == null)
                 {
-                    throw new Exception("Room Not Found.");
-                    // HB -    throw new RoomNotFoundException(updateRoom.Id);
+                    throw new Exception("Picture Not Found.");
+                    // HB -    throw new PictureNotFoundException(updatePicture.Id);
                 }
                 else
                 {
                     // HB - validation 'Name'
-                    _mapper.Map(updateRoom, room);
+                    _mapper.Map(updatePicture, picture);
                     await _context.SaveChangesAsync(cancellationToken);
-                    return room.Id;
+                    return picture.Id;
                 }
             }
         }
