@@ -5,7 +5,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+
 using ImageGallery.Data;
+using ImageGallery.Exceptions;
 
 namespace ImageGallery.DatabaseRequests.Pictures
 {
@@ -27,8 +29,7 @@ namespace ImageGallery.DatabaseRequests.Pictures
                 var picture = await _context.Pictures.FirstOrDefaultAsync(a => a.Id == deletePicture.Id);
 
                 if (picture == null)
-                    throw new Exception("Picture Not Found.");
-                // HB -    throw new PictureNotFoundException(deletePicture.Id);
+                    throw new PictureNotFoundException(deletePicture.Id);
 
                 _context.Pictures.Remove(picture);
                 await _context.SaveChangesAsync(cancellationToken);

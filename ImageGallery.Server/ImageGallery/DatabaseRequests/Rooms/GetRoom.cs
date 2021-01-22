@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using MediatR;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using ImageGallery.Models.DTO;
-using ImageGallery.Data;
 using Microsoft.EntityFrameworkCore;
+
+using ImageGallery.Data;
+using ImageGallery.Models.DTO;
+using ImageGallery.Exceptions;
 
 namespace ImageGallery.DatabaseRequests.Rooms
 {
@@ -34,8 +36,7 @@ namespace ImageGallery.DatabaseRequests.Rooms
                      .FirstOrDefaultAsync(a => a.Id == getRoom.Id);
 
                 if (roomDto == null)
-                    throw new Exception("Room Not Found.");
-                // HB -   throw new RoomNotFoundException(getRoom.Id);
+                    throw new RoomNotFoundException(getRoom.Id);
 
                 return roomDto;
             }

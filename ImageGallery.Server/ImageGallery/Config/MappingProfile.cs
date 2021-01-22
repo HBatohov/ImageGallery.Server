@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+
 using ImageGallery.Models.DTO;
 using ImageGallery.Models.Entities;
 using ImageGallery.DatabaseRequests.Rooms;
 using ImageGallery.DatabaseRequests.Pictures;
 
-namespace ImageGallery.Models
+namespace ImageGallery
 {
     public class MappingProfile : Profile
     {

@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ImageGallery.Data;
-using ImageGallery.Models.Entities;
-using ImageGallery.DatabaseRequests.Pictures;
 using MediatR;
+using LightQuery.Client;
+using LightQuery.EntityFrameworkCore;
+
+using ImageGallery.Constans;
+using ImageGallery.Models.DTO;
+using ImageGallery.DatabaseRequests.Pictures;
 
 namespace ImageGallery.Controllers
 {
@@ -17,14 +19,14 @@ namespace ImageGallery.Controllers
     public class PicturesController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly ImageGalleryContext _context;
 
-        public PicturesController(IMediator mediator, ImageGalleryContext context)
+        public PicturesController(IMediator mediator)
         {
             _mediator = mediator;
-            _context = context;
         }
 
+        [AsyncLightQuery(forcePagination: true, defaultPageSize: AppConstans.DEFAULT_PAGE_SIZE)]
+        [ProducesResponseType(typeof(PaginationResult<PictureDTO>), 200)]
         [HttpGet]
         public async Task<IActionResult> GetAllPicturesAsync()
         {

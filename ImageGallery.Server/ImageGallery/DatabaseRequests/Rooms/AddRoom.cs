@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using MediatR;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
+
+using ImageGallery.Data;
 using ImageGallery.Models.DTO;
 using ImageGallery.Models.Entities;
-using Microsoft.EntityFrameworkCore;
-using ImageGallery.Data;
 
 namespace ImageGallery.DatabaseRequests.Rooms
 {

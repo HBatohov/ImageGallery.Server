@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 using MediatR;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using ImageGallery.Models.DTO;
 using Microsoft.EntityFrameworkCore;
+
 using ImageGallery.Data;
+using ImageGallery.Models.DTO;
 
 namespace ImageGallery.DatabaseRequests.Rooms
 {
-    public class GetAllRooms : IRequest<IEnumerable<RoomDTO>>
+    public class GetAllRooms : IRequest<IQueryable<RoomDTO>>
     {
-        public class GetAllRoomsHandler : IRequestHandler<GetAllRooms, IEnumerable<RoomDTO>>
+        public class GetAllRoomsHandler : IRequestHandler<GetAllRooms, IQueryable<RoomDTO>>
         {
             private readonly IImageGalleryContext _context;
             private readonly IMapper _mapper;
@@ -25,13 +26,12 @@ namespace ImageGallery.DatabaseRequests.Rooms
                 _mapper = mapper;
             }
 
-            public async Task<IEnumerable<RoomDTO>> Handle(GetAllRooms getAllRooms, CancellationToken cancellationToken)
+            public async Task<IQueryable<RoomDTO>> Handle(GetAllRooms getAllRooms, CancellationToken cancellationToken)
             {
-                var rooms = await _context.Rooms.AsNoTracking()
+                IQueryable<RoomDTO> rooms = _context.Rooms.AsNoTracking()
                     .OrderBy(p => p.Name)
-                    .ProjectTo<RoomDTO>(_mapper.ConfigurationProvider)
-                    .ToListAsync();
-                return rooms.AsReadOnly();
+                    .ProjectTo<RoomDTO>(_mapper.ConfigurationProvider);
+                return await Task.FromResult(rooms);
             }
         }
     }

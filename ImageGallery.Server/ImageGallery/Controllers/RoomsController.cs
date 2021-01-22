@@ -4,11 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ImageGallery.Models.Entities;
+using MediatR;
+using LightQuery.Client;
+using LightQuery.EntityFrameworkCore;
+
+using ImageGallery.Constans;
 using ImageGallery.Models.DTO;
 using ImageGallery.DatabaseRequests.Rooms;
 using ImageGallery.DatabaseRequests.Pictures;
-using MediatR;
 
 namespace ImageGallery.Controllers
 {
@@ -23,6 +26,8 @@ namespace ImageGallery.Controllers
             _mediator = mediator;
         }
 
+        [AsyncLightQuery(forcePagination: true, defaultPageSize: AppConstans.DEFAULT_PAGE_SIZE)]
+        [ProducesResponseType(typeof(PaginationResult<RoomDTO>), 200)]
         [HttpGet]
         public async Task<IActionResult> GetAllRoomsAsync()
         {
@@ -37,6 +42,8 @@ namespace ImageGallery.Controllers
             return Ok(result);
         }
 
+        [AsyncLightQuery(forcePagination: true, defaultPageSize: AppConstans.DEFAULT_PAGE_SIZE)]
+        [ProducesResponseType(typeof(PaginationResult<PictureDTO>), 200)]
         [HttpGet("{id}/Pictures")]
         public async Task<IActionResult> GetPicturesByRoomAsync(Guid id)
         {

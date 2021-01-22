@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-using ImageGallery.Models;
 using ImageGallery.Models.Entities;
 
 namespace ImageGallery.Data

@@ -6,16 +6,17 @@ using System.Threading.Tasks;
 using MediatR;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using ImageGallery.Models.DTO;
 using Microsoft.EntityFrameworkCore;
+
 using ImageGallery.Data;
+using ImageGallery.Models.DTO;
 
 namespace ImageGallery.DatabaseRequests.Pictures
 {
-    public class GetPicturesByRoom : IRequest<IEnumerable<PictureDTO>>
+    public class GetPicturesByRoom : IRequest<IQueryable<PictureDTO>>
     {
         public Guid RoomId { get; set; }
-        public class GetPicturesByRoomHandler : IRequestHandler<GetPicturesByRoom, IEnumerable<PictureDTO>>
+        public class GetPicturesByRoomHandler : IRequestHandler<GetPicturesByRoom, IQueryable<PictureDTO>>
         {
             private readonly IImageGalleryContext _context;
             private readonly IMapper _mapper;
@@ -26,14 +27,26 @@ namespace ImageGallery.DatabaseRequests.Pictures
                 _mapper = mapper;
             }
 
-            public async Task<IEnumerable<PictureDTO>> Handle(GetPicturesByRoom getPicturesByRoom, CancellationToken cancellationToken)
+            public async Task<IQueryable<PictureDTO>> Handle(GetPicturesByRoom getPicturesByRoom, CancellationToken cancellationToken)
             {
-                var pictures = await _context.Pictures.AsNoTracking()
-                    .Where(p => p.RoomId == getPicturesByRoom.RoomId)
-                    .OrderBy(p => p.CreateDate)
-                    .ProjectTo<PictureDTO>(_mapper.ConfigurationProvider)
-                    .ToListAsync();
-                return pictures.AsReadOnly();
+                IQueryable<PictureDTO> pictures;
+
+                if (getPicturesByRoom.RoomId == Guid.Empty)
+                {
+                    pictures = _context.Pictures.AsNoTracking()
+                            .Where(p => !p.RoomId.HasValue)
+                            .OrderBy(p => p.CreateDate)
+                            .ProjectTo<PictureDTO>(_mapper.ConfigurationProvider);
+                }
+                else
+                {
+                    pictures = _context.Pictures.AsNoTracking()
+                            .Where(p => p.RoomId == getPicturesByRoom.RoomId)
+                            .OrderBy(p => p.CreateDate)
+                            .ProjectTo<PictureDTO>(_mapper.ConfigurationProvider);
+                }
+
+                return await Task.FromResult(pictures);
             }
         }
     }

@@ -5,7 +5,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+
 using ImageGallery.Data;
+using ImageGallery.Exceptions;
 
 namespace ImageGallery.DatabaseRequests.Rooms
 {
@@ -27,8 +29,7 @@ namespace ImageGallery.DatabaseRequests.Rooms
                 var room = await _context.Rooms.FirstOrDefaultAsync(a => a.Id == deleteRoom.Id);
 
                 if (room == null)
-                    throw new Exception("Room Not Found.");
-                // HB -    throw new RoomNotFoundException(deleteRoom.Id);
+                    throw new RoomNotFoundException(deleteRoom.Id);
 
                 _context.Rooms.Remove(room);
                 await _context.SaveChangesAsync(cancellationToken);

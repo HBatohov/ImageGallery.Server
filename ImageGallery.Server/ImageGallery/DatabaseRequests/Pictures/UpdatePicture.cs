@@ -7,9 +7,11 @@ using System.Text.Json.Serialization;
 using MediatR;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using ImageGallery.Models.DTO;
 using Microsoft.EntityFrameworkCore;
+
 using ImageGallery.Data;
+using ImageGallery.Models.DTO;
+using ImageGallery.Exceptions;
 
 namespace ImageGallery.DatabaseRequests.Pictures
 {
@@ -38,12 +40,11 @@ namespace ImageGallery.DatabaseRequests.Pictures
 
                 if (picture == null)
                 {
-                    throw new Exception("Picture Not Found.");
-                    // HB -    throw new PictureNotFoundException(updatePicture.Id);
+                    throw new PictureNotFoundException(updatePicture.Id);
                 }
                 else
                 {
-                    // HB - validation 'Name'
+                    // HB - validate 'Name'
                     _mapper.Map(updatePicture, picture);
                     await _context.SaveChangesAsync(cancellationToken);
                     return picture.Id;

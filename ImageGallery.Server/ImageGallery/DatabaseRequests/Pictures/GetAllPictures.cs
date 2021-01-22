@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 using MediatR;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using ImageGallery.Models.DTO;
 using Microsoft.EntityFrameworkCore;
+
 using ImageGallery.Data;
+using ImageGallery.Models.DTO;
 
 namespace ImageGallery.DatabaseRequests.Pictures
 {
-    public class GetAllPictures : IRequest<IEnumerable<PictureDTO>>
+    public class GetAllPictures : IRequest<IQueryable<PictureDTO>>
     {
-        public class GetAllPicturesHandler : IRequestHandler<GetAllPictures, IEnumerable<PictureDTO>>
+        public class GetAllPicturesHandler : IRequestHandler<GetAllPictures, IQueryable<PictureDTO>>
         {
             private readonly IImageGalleryContext _context;
             private readonly IMapper _mapper;
@@ -25,13 +26,12 @@ namespace ImageGallery.DatabaseRequests.Pictures
                 _mapper = mapper;
             }
 
-            public async Task<IEnumerable<PictureDTO>> Handle(GetAllPictures getAllPictures, CancellationToken cancellationToken)
+            public async Task<IQueryable<PictureDTO>> Handle(GetAllPictures getAllPictures, CancellationToken cancellationToken)
             {
-                var pictures = await _context.Pictures.AsNoTracking()
+                IQueryable<PictureDTO> pictures = _context.Pictures.AsNoTracking()
                     .OrderBy(p => p.CreateDate)
-                    .ProjectTo<PictureDTO>(_mapper.ConfigurationProvider)
-                    .ToListAsync();
-                return pictures.AsReadOnly();
+                    .ProjectTo<PictureDTO>(_mapper.ConfigurationProvider);
+                return await Task.FromResult(pictures);
             }
         }
     }

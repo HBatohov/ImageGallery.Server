@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using MediatR;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
+
 using ImageGallery.Models.DTO;
 using ImageGallery.Data;
-using Microsoft.EntityFrameworkCore;
+using ImageGallery.Exceptions;
 
 namespace ImageGallery.DatabaseRequests.Pictures
 {
@@ -34,8 +36,7 @@ namespace ImageGallery.DatabaseRequests.Pictures
                      .FirstOrDefaultAsync(a => a.Id == getPicture.Id);
 
                 if (pictureDto == null)
-                    throw new Exception("Picture Not Found.");
-                // HB -   throw new PictureNotFoundException(getPicture.Id);
+                   throw new PictureNotFoundException(getPicture.Id);
 
                 return pictureDto;
             }
