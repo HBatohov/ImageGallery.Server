@@ -40,7 +40,7 @@ namespace ImageGallery.Data
                 .HasOne<Room>(p => p.Room)
                 .WithMany(t => t.Pictures)
                 .HasForeignKey(p => p.RoomId)
-                .OnDelete(DeleteBehavior.SetNull);  // HB - or .Cascade
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

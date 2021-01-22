@@ -44,7 +44,6 @@ namespace ImageGallery.DatabaseRequests.Pictures
                 }
                 else
                 {
-                    // HB - validate 'Name'
                     _mapper.Map(updatePicture, picture);
                     await _context.SaveChangesAsync(cancellationToken);
                     return picture.Id;

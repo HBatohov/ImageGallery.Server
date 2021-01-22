@@ -26,7 +26,7 @@ namespace ImageGallery.DatabaseRequests.Pictures
 
             public async Task<Unit> Handle(DeletePicture deletePicture, CancellationToken cancellationToken)
             {
-                var picture = await _context.Pictures.FirstOrDefaultAsync(a => a.Id == deletePicture.Id);
+                var picture = await _context.Pictures.FirstOrDefaultAsync(a => a.Id == deletePicture.Id, cancellationToken: cancellationToken);
 
                 if (picture == null)
                     throw new PictureNotFoundException(deletePicture.Id);

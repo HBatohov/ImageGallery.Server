@@ -33,7 +33,7 @@ namespace ImageGallery.DatabaseRequests.Pictures
             {
                 var pictureDto = await _context.Pictures.AsNoTracking()
                      .ProjectTo<PictureDataDTO>(_mapper.ConfigurationProvider)
-                     .FirstOrDefaultAsync(a => a.Id == getPicture.Id);
+                     .FirstOrDefaultAsync(a => a.Id == getPicture.Id, cancellationToken: cancellationToken);
 
                 if (pictureDto == null)
                    throw new PictureNotFoundException(getPicture.Id);

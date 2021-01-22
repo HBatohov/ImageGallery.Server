@@ -34,7 +34,6 @@ namespace ImageGallery.DatabaseRequests.Pictures
 
             public async Task<Guid> Handle(AddPicture addPicture, CancellationToken cancellationToken)
             {
-                // HB - validation
                 var picture = _mapper.Map<Picture>(addPicture);
 
                 // HB - temporary

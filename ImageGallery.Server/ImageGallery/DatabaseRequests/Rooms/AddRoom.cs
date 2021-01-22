@@ -32,7 +32,6 @@ namespace ImageGallery.DatabaseRequests.Rooms
 
             public async Task<Guid> Handle(AddRoom addRoom, CancellationToken cancellationToken)
             {
-                // HB - validation
                 var room = _mapper.Map<Room>(addRoom);
                 _context.Rooms.Add(room);
                 await _context.SaveChangesAsync(cancellationToken);

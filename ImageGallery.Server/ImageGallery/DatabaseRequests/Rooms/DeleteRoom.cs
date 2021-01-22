@@ -26,7 +26,7 @@ namespace ImageGallery.DatabaseRequests.Rooms
 
             public async Task<Unit> Handle(DeleteRoom deleteRoom, CancellationToken cancellationToken)
             {
-                var room = await _context.Rooms.FirstOrDefaultAsync(a => a.Id == deleteRoom.Id);
+                var room = await _context.Rooms.FirstOrDefaultAsync(a => a.Id == deleteRoom.Id, cancellationToken: cancellationToken);
 
                 if (room == null)
                     throw new RoomNotFoundException(deleteRoom.Id);

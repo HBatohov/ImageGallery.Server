@@ -1,6 +1,3 @@
-using AutoMapper;
-using MediatR;
-using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,8 +12,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Reflection;
+using AutoMapper;
+using MediatR;
+using FluentValidation;
 
-using ImageGallery.Models;
 using ImageGallery.Data;
 
 namespace ImageGallery
@@ -51,6 +51,9 @@ namespace ImageGallery
             services.AddMediatR(Assembly.GetExecutingAssembly());
 
             services.AddScoped<IImageGalleryContext>(provider => provider.GetService<ImageGalleryContext>());
+
+            services.AddValidatorsFromAssembly(typeof(Startup).Assembly);
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(PipelineValidationBehavior<,>));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

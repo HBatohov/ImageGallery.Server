@@ -33,7 +33,7 @@ namespace ImageGallery.DatabaseRequests.Rooms
             {
                 var roomDto = await _context.Rooms.AsNoTracking()
                      .ProjectTo<RoomDTO>(_mapper.ConfigurationProvider)
-                     .FirstOrDefaultAsync(a => a.Id == getRoom.Id);
+                     .FirstOrDefaultAsync(a => a.Id == getRoom.Id, cancellationToken: cancellationToken);
 
                 if (roomDto == null)
                     throw new RoomNotFoundException(getRoom.Id);

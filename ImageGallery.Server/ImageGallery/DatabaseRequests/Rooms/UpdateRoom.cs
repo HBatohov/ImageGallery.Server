@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 using ImageGallery.Data;
 using ImageGallery.Models.DTO;
+using ImageGallery.Exceptions;
 
 namespace ImageGallery.DatabaseRequests.Rooms
 {
@@ -38,12 +39,10 @@ namespace ImageGallery.DatabaseRequests.Rooms
 
                 if (room == null)
                 {
-                    throw new Exception("Room Not Found.");
-                    // HB -    throw new RoomNotFoundException(updateRoom.Id);
+                    throw new RoomNotFoundException(updateRoom.Id);
                 }
                 else
                 {
-                    // HB - validation 'Name'
                     _mapper.Map(updateRoom, room);
                     await _context.SaveChangesAsync(cancellationToken);
                     return room.Id;
