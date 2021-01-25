@@ -41,6 +41,11 @@ namespace ImageGallery.Data
                 .WithMany(t => t.Pictures)
                 .HasForeignKey(p => p.RoomId)
                 .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<ApplicationUser>()
+                .Property(p => p.FirsName).HasMaxLength(60);
+            modelBuilder.Entity<ApplicationUser>()
+                .Property(p => p.LastName).HasMaxLength(60);
         }
     }
 }
