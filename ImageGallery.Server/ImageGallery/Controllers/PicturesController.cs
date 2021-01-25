@@ -49,10 +49,10 @@ namespace ImageGallery.Controllers
             return Ok(result);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddPictureAsync(AddPicture addPicture)
+        [HttpPost, DisableRequestSizeLimit]
+        public async Task<IActionResult> CreateAsync([FromForm] IFormFileCollection Files, [FromForm] Guid? RoomId)
         {
-            var result = await _mediator.Send(addPicture);
+            var result = (await _mediator.Send(new AddPicture { FormFiles = Files, RoomId = RoomId })); ;
             return Ok(result);
         }
 

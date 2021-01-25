@@ -99,7 +99,7 @@ namespace ImageGallery.Controllers
             return res;
         }
 
-        private IEnumerable<string> GetDestinations(Claim claim, ClaimsPrincipal principal)
+        private static IEnumerable<string> GetDestinations(Claim claim, ClaimsPrincipal principal)
         {
             // Note: by default, claims are NOT automatically included in the access and identity tokens.
             // To allow OpenIddict to serialize them, you must attach them a destination, that specifies

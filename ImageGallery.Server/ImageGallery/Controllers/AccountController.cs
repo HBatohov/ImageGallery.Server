@@ -13,7 +13,7 @@ namespace ImageGallery.Controllers
     [Route("/api/accounts")]
     public class AccountController : ControllerBase
     {
-        private IMediator _mediator;
+        private readonly IMediator _mediator;
 
         public AccountController(IMediator mediator)
         {
