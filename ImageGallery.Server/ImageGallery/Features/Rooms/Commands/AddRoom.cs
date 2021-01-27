@@ -12,7 +12,7 @@ using ImageGallery.Data;
 using ImageGallery.Models.DTO;
 using ImageGallery.Models.Entities;
 
-namespace ImageGallery.DatabaseRequests.Rooms
+namespace ImageGallery.Features.Rooms
 {
     public class AddRoom : IRequest<Guid>
     {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.Extensions.Configuration;
 
-namespace ImageGallery.DatabaseRequests.Pictures
+namespace ImageGallery.Features.Pictures
 {
     public class AddPictureValidator : AbstractValidator<AddPicture>
     {

@@ -13,7 +13,7 @@ using ImageGallery.Data;
 using ImageGallery.Models.DTO;
 using ImageGallery.Exceptions;
 
-namespace ImageGallery.DatabaseRequests.Pictures
+namespace ImageGallery.Features.Pictures
 {
     public class UpdatePicture : IRequest<Guid>
     {

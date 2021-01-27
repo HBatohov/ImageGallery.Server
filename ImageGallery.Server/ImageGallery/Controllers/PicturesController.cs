@@ -10,7 +10,7 @@ using LightQuery.EntityFrameworkCore;
 
 using ImageGallery.Constans;
 using ImageGallery.Models.DTO;
-using ImageGallery.DatabaseRequests.Pictures;
+using ImageGallery.Features.Pictures;
 
 namespace ImageGallery.Controllers
 {

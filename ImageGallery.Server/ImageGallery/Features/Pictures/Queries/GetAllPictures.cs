@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using ImageGallery.Data;
 using ImageGallery.Models.DTO;
 
-namespace ImageGallery.DatabaseRequests.Pictures
+namespace ImageGallery.Features.Pictures
 {
     public class GetAllPictures : IRequest<IQueryable<PictureDTO>>
     {

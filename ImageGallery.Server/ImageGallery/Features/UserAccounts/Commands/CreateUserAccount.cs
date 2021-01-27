@@ -9,7 +9,7 @@ using MediatR;
 using ImageGallery.Exceptions;
 using ImageGallery.Models.Entities;
 
-namespace ImageGallery.DatabaseRequests.UserAccounts
+namespace ImageGallery.Features.UserAccounts
 {
     public class CreateUserAccount : IRequest<string>
     {

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-using ImageGallery.DatabaseRequests.UserAccounts;
+using ImageGallery.Features.UserAccounts;
 
 namespace ImageGallery.Controllers
 {

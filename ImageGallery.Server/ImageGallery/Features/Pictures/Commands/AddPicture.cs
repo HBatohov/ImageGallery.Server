@@ -12,7 +12,7 @@ using ImageGallery.Data;
 using ImageGallery.Models.DTO;
 using ImageGallery.Models.Entities;
 
-namespace ImageGallery.DatabaseRequests.Pictures
+namespace ImageGallery.Features.Pictures
 {
     public class AddPicture : IRequest<IEnumerable<Guid>>
     {

@@ -12,27 +12,27 @@ using ImageGallery.Models.DTO;
 using ImageGallery.Data;
 using ImageGallery.Exceptions;
 
-namespace ImageGallery.DatabaseRequests.Pictures
+namespace ImageGallery.Features.Pictures
 {
-    public class GetPictureData : IRequest<PictureDataDTO>
+    public class GetPicture : IRequest<PictureWithDataDTO>
     {
         public Guid Id { get; set; }
 
-        public class GetPictureDataHandler : IRequestHandler<GetPictureData, PictureDataDTO>
+        public class GetPictureHandler : IRequestHandler<GetPicture, PictureWithDataDTO>
         {
             private readonly IImageGalleryContext _context;
             private readonly IMapper _mapper;
 
-            public GetPictureDataHandler(IImageGalleryContext context, IMapper mapper)
+            public GetPictureHandler(IImageGalleryContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
             }
 
-            public async Task<PictureDataDTO> Handle(GetPictureData getPicture, CancellationToken cancellationToken)
+            public async Task<PictureWithDataDTO> Handle(GetPicture getPicture, CancellationToken cancellationToken)
             {
                 var pictureDto = await _context.Pictures.AsNoTracking()
-                     .ProjectTo<PictureDataDTO>(_mapper.ConfigurationProvider)
+                     .ProjectTo<PictureWithDataDTO>(_mapper.ConfigurationProvider)
                      .FirstOrDefaultAsync(a => a.Id == getPicture.Id, cancellationToken: cancellationToken);
 
                 if (pictureDto == null)

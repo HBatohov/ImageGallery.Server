@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using ImageGallery.Data;
 using ImageGallery.Models.DTO;
 
-namespace ImageGallery.DatabaseRequests.Rooms
+namespace ImageGallery.Features.Rooms
 {
     public class GetAllRooms : IRequest<IQueryable<RoomDTO>>
     {

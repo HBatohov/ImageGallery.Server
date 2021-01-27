@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
 
-namespace ImageGallery.DatabaseRequests.Rooms
+namespace ImageGallery.Features.Rooms
 {
     public class UpdateRoomValidator : AbstractValidator<UpdateRoom>
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
 
-namespace ImageGallery.DatabaseRequests.UserAccounts
+namespace ImageGallery.Features.UserAccounts
 {
     public class CreateUserAccountValidator : AbstractValidator<CreateUserAccount>
     {

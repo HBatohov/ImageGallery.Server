@@ -13,7 +13,7 @@ using ImageGallery.Data;
 using ImageGallery.Models.DTO;
 using ImageGallery.Exceptions;
 
-namespace ImageGallery.DatabaseRequests.Rooms
+namespace ImageGallery.Features.Rooms
 {
     public class UpdateRoom : IRequest<Guid>
     {

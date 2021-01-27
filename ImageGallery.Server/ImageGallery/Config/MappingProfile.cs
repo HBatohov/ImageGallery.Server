@@ -6,8 +6,8 @@ using AutoMapper;
 
 using ImageGallery.Models.DTO;
 using ImageGallery.Models.Entities;
-using ImageGallery.DatabaseRequests.Rooms;
-using ImageGallery.DatabaseRequests.Pictures;
+using ImageGallery.Features.Rooms;
+using ImageGallery.Features.Pictures;
 
 namespace ImageGallery
 {

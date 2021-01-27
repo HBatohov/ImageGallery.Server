@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using ImageGallery.Data;
 using ImageGallery.Exceptions;
 
-namespace ImageGallery.DatabaseRequests.Pictures
+namespace ImageGallery.Features.Pictures
 {
     public class DeletePicture : IRequest<Unit>
     {

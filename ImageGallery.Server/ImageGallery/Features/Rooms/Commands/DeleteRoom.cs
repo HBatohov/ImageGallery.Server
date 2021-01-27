@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using ImageGallery.Data;
 using ImageGallery.Exceptions;
 
-namespace ImageGallery.DatabaseRequests.Rooms
+namespace ImageGallery.Features.Rooms
 {
     public class DeleteRoom : IRequest<Unit>
     {
