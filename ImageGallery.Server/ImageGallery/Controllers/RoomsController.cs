@@ -15,7 +15,7 @@ using ImageGallery.DatabaseRequests.Pictures;
 
 namespace ImageGallery.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/rooms")]
     [ApiController]
     public class RoomsController : ControllerBase
     {
@@ -26,7 +26,7 @@ namespace ImageGallery.Controllers
             _mediator = mediator;
         }
 
-        [AsyncLightQuery(forcePagination: true, defaultPageSize: AppConstans.DEFAULT_PAGE_SIZE)]
+        [AsyncLightQuery(forcePagination: false, defaultPageSize: AppConstans.DEFAULT_PAGE_SIZE)]
         [ProducesResponseType(typeof(PaginationResult<RoomDTO>), 200)]
         [HttpGet]
         public async Task<IActionResult> GetAllRoomsAsync()
@@ -42,7 +42,7 @@ namespace ImageGallery.Controllers
             return Ok(result);
         }
 
-        [AsyncLightQuery(forcePagination: true, defaultPageSize: AppConstans.DEFAULT_PAGE_SIZE)]
+        [AsyncLightQuery(forcePagination: false, defaultPageSize: AppConstans.DEFAULT_PAGE_SIZE)]
         [ProducesResponseType(typeof(PaginationResult<PictureDTO>), 200)]
         [HttpGet("{id}/Pictures")]
         public async Task<IActionResult> GetPicturesByRoomAsync(Guid id)

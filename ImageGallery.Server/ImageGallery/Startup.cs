@@ -140,6 +140,11 @@ namespace ImageGallery
 
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
