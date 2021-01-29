@@ -4,12 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 using ImageGallery.Models.Entities;
 
 namespace ImageGallery.Data
 {
-    public class ImageGalleryContext : DbContext, IImageGalleryContext
+    public class ImageGalleryContext : IdentityDbContext<ApplicationUser>, IImageGalleryContext
     {
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Picture> Pictures { get; set; }
@@ -25,6 +26,8 @@ namespace ImageGallery.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Room>()
                 .ToTable("Rooms").HasKey(p => p.Id);
             modelBuilder.Entity<Room>()
